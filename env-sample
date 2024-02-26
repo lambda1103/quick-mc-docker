@@ -1,3 +1,4 @@
+JAVA_VERSION=javaX
 BACKUP_NAME=world
 CF_API_KEY=(be sure to escape all $ in here with another $)
 CF_PAGE_URL=
