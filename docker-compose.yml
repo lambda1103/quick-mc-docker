@@ -7,7 +7,15 @@ services:
       - "25565:25565"
     environment:
       EULA: "TRUE"
-      TYPE: PAPER
+      ENABLE_AUTOPAUSE: "TRUE"
+      OVERRIDE_SERVER_PROPERTIES: "TRUE"
+      MAX_TICK_TIME: "-1"
+      AUTOPAUSE_TIMEOUT_INIT: "300"
+      AUTOPAUSE_TIMEOUT_EST: "10"
+      TYPE: ${TYPE}
+      CF_API_KEY: ${CF_API_KEY}
+      CF_PAGE_URL: ${CF_PAGE_URL}
+      VERSION: ${MC_VERSION}
     restart: unless-stopped
     depends_on:
       restore-backup:
@@ -24,7 +32,6 @@ services:
       - ./mc-data:/data
       # Must be same mount as backups service, but can be read-only
       - ./mc-backups:/backups:ro
-      - ./rclone.conf:/config/rclone/rclone.conf:ro
   backups:
     image: itzg/mc-backup
     depends_on:
@@ -32,8 +39,9 @@ services:
         condition: service_healthy
     environment:
       BACKUP_INTERVAL: "2h"
+      BACKUP_NAME: ${BACKUP_NAME}
       BACKUP_METHOD: "rclone"
-      RCLONE_REMOTE: "storagebox"
+      RCLONE_REMOTE: ${RCLONE_REMOTE}
       RCON_HOST: mc
       # since this service waits for mc to be healthy, no initial delay is needed
       INITIAL_DELAY: 0
@@ -41,4 +49,4 @@ services:
     volumes:
       - ./mc-data:/data:ro
       - ./mc-backups:/backups
-      - ./rclone.conf:/config/rclone/rclone.conf:ro
+      - /root/.config/rclone/rclone.conf:/config/rclone/rclone.conf:ro
