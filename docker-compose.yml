@@ -7,6 +7,8 @@ services:
       - "25565:25565"
     environment:
       EULA: "TRUE"
+      MEMORY: "${MEMORY}"
+      TZ: "Europe/Berlin"
       ENABLE_AUTOPAUSE: "TRUE"
       OVERRIDE_SERVER_PROPERTIES: "TRUE"
       MAX_TICK_TIME: "-1"
@@ -16,7 +18,7 @@ services:
       CF_API_KEY: ${CF_API_KEY}
       CF_PAGE_URL: ${CF_PAGE_URL}
       VERSION: ${MC_VERSION}
-    restart: unless-stopped
+    restart: "no"
     depends_on:
       restore-backup:
         condition: service_completed_successfully
@@ -38,10 +40,11 @@ services:
       mc:
         condition: service_healthy
     environment:
+      EXCLUDES: "cache,logs,*.tmp"
       BACKUP_INTERVAL: "2h"
-      BACKUP_NAME: ${BACKUP_NAME}
       BACKUP_METHOD: "rclone"
       RCLONE_REMOTE: ${RCLONE_REMOTE}
+      RCLONE_DEST_DIR: ${BACKUP_NAME}
       RCON_HOST: mc
       # since this service waits for mc to be healthy, no initial delay is needed
       INITIAL_DELAY: 0
