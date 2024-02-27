@@ -9,6 +9,6 @@ if [ -z "$latest" ]; then
     exit 1
 else
     echo "Backup found: $latest"
-    rclone copy ${RCLONE_REMOTE}:${SERVER_NAME}/${latest} ./mc-backups
+    rclone copy ${RCLONE_REMOTE}:${SERVER_NAME}/${latest} /root/minecraft/mc-backups
     exit 0
 fi
