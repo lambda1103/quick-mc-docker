@@ -24,6 +24,11 @@ services:
         condition: service_completed_successfully
     volumes:
       - ./mc-data:/data
+    healthcheck:
+      test: mc-health
+      start_period: ${HEALTHCHECK_START_PERIOD}
+      interval: 5s
+      retries: 20
   # "init" container for mc to restore the data volume when empty    
   restore-backup:
     image: itzg/mc-backup
@@ -44,7 +49,7 @@ services:
       BACKUP_INTERVAL: "2h"
       BACKUP_METHOD: "rclone"
       RCLONE_REMOTE: ${RCLONE_REMOTE}
-      RCLONE_DEST_DIR: ${BACKUP_NAME}
+      RCLONE_DEST_DIR: ${SERVER_NAME}
       RCON_HOST: mc
       # since this service waits for mc to be healthy, no initial delay is needed
       INITIAL_DELAY: 0

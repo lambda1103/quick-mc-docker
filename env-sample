@@ -1,6 +1,7 @@
 JAVA_VERSION=javaX
 MEMORY=8G
-BACKUP_NAME=world
+HEALTHCHECK_START_PERIOD=10m
+BACKUP_DIR=world
 CF_API_KEY=(be sure to escape all $ in here with another $)
 CF_PAGE_URL=
 RCLONE_REMOTE=
