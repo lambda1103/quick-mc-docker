@@ -1,9 +1,11 @@
+HETZNER_API_TOKEN=<TOKEN>
+SERVER_NAME=myServer
+DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/...
 JAVA_VERSION=javaX
 MEMORY=8G
 HEALTHCHECK_START_PERIOD=10m
-BACKUP_DIR=world
 CF_API_KEY=(be sure to escape all $ in here with another $)
-CF_PAGE_URL=
-RCLONE_REMOTE=
-TYPE=FORGE
+CF_PAGE_URL=(be sure to use a client pack url, not server pack)
+RCLONE_REMOTE=myRemote
+TYPE=AUTO_CURSEFORGE
 MC_VERSION=1.12.2
