@@ -1,8 +1,8 @@
 #!/bin/bash
 
-export $(grep -v '^#' .env | xargs)
+export $(grep -v '^#' /root/minecraft/.env | xargs)
 
-latest=$(rclone lsf ${RCLONE_REMOTE}:${BACKUP_NAME} --include "world-*" --files-only --order-by 'modtime' -v | tail -n 1)
+latest=$(rclone lsf ${RCLONE_REMOTE}:${SERVER_NAME} --include "world-*" --files-only --order-by 'modtime' -v | tail -n 1)
 
 if [ -z "$latest" ]; then
     echo "No backup found"

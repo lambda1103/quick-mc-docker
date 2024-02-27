@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export $(grep -v '^#' .env | xargs)
+export $(grep -v '^#' /root/minecraft/.env | xargs)
 
 if [ -f /root/minecraft/mc-data/.paused ]; then
     # Find Server ID
