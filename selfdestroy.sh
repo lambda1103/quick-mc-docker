@@ -3,6 +3,21 @@
 export $(grep -v '^#' /root/minecraft/.env | xargs)
 
 if [ -f /root/minecraft/mc-data/.paused ]; then
+
+    # Run Backup
+    docker exec minecraft_backups_1 backup now
+    if [ $? -ne 0 ]; then
+        echo "Error: Failed to run the backup command."
+        curl -H "Content-Type: application/json" \
+            -X POST \
+            -d "{\"content\":\"Error: Failed backup before killing $SERVER_NAME.\"}" \
+            $DISCORD_WEBHOOK_URL
+        exit 1
+    fi
+
+    # Stop running containers
+    docker-compose down -f /root/minecraft/docker-compose.yml
+
     # Find Server ID
     server_id=$(curl -s -X GET \
         -H "Authorization: Bearer $HETZNER_API_TOKEN" \
